@@ -76,9 +76,9 @@ public final class RobotConstants {
 
                 public static final double FREE_SPEED_RPM = 5676;
 
-                public static final int DRIVING_MOTOR_PINION_TEETH = 14;
+                public static final int DRIVING_MOTOR_PINION_TEETH = 16;
 
-                public static final boolean TURNING_ENCODER_INVERTED = true;
+                public static final boolean TURNING_ENCODER_INVERTED = false;
 
                 public static final double DRIVING_MOTOR_FREE_SPEED_RPS = FREE_SPEED_RPM / 60;
                 public static final double WHEEL_DIAMETER_METERS = 0.1016;
@@ -278,6 +278,6 @@ public final class RobotConstants {
 
         public static final class SubsystemEnabledConstants {
                 public static final boolean DRIVE_SUBSYSTEM_ENABLED = true;
-                public static final boolean VISION_SUBSYSTEM_ENABLED = true;
+                public static final boolean VISION_SUBSYSTEM_ENABLED = false;
         }
 }
