@@ -233,10 +233,9 @@ public class DriveSubsystem extends SubsystemBase {
     private void updateVisionMeasurements() {
         if (RobotBase.isReal()) {
             for (int i = 0; i < VisionSubsystem.getLengthOfCameraList(); i++) {
-                try {
-                    m_odometry.addVisionMeasurement(VisionSubsystem.getVisionPose(i), Timer.getFPGATimestamp());
-                } catch (NoSuchElementException e) {
-
+                Pose2d camPose = VisionSubsystem.getVisionPoses()[i];
+                if (camPose != null){
+                    m_odometry.addVisionMeasurement(camPose, Timer.getFPGATimestamp());
                 }
             }
         }

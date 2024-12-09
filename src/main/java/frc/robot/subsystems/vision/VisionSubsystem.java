@@ -8,6 +8,7 @@ import frc.robot.RobotConstants.VisionConstants;
 import frc.robot.subsystems.drive.DriveSubsystem;
 import frc.robot.utils.CowboyUtils;
 import java.util.NoSuchElementException;
+import java.util.Optional;
 
 import org.photonvision.simulation.VisionSystemSim;
 
@@ -15,7 +16,7 @@ public class VisionSubsystem extends SubsystemBase {
 
     public static Camera[] cameras = new Camera[2];
     public static CameraSim[] cameraSims = new CameraSim[2];
-    private String[] cameraNames = { "backLeftCamera", "backRightCamera" };
+    private static String[] cameraNames = { "backLeftCamera", "backRightCamera" };
     public static VisionSystemSim visionSim;
 
     public VisionSubsystem() {
@@ -42,14 +43,25 @@ public class VisionSubsystem extends SubsystemBase {
 
     }
 
-    public static Pose2d getVisionPose(int i) throws NoSuchElementException {
-        if (RobotBase.isSimulation()) {
-            return cameraSims[i].getEstimatedGlobalPose(DriveSubsystem.getPose().orElseThrow())
-                    .orElseThrow().estimatedPose.toPose2d();
-        } else {
-            return cameras[i].getEstimatedGlobalPose(DriveSubsystem.getPose().orElseThrow()).orElseThrow().estimatedPose
-                    .toPose2d();
+    public static Pose2d[] getVisionPoses() {
+        Pose2d[] list = {};
+
+        for (int i = 0; i < cameraNames.length; i++) {
+            try{
+                if (RobotBase.isSimulation()) {
+                list[i] = cameraSims[i].getEstimatedGlobalPose(DriveSubsystem.getPose().orElseThrow())
+                        .get().estimatedPose.toPose2d();
+                } else {
+                    list[i] = cameras[i].getEstimatedGlobalPose(DriveSubsystem.getPose().orElseThrow()).get().estimatedPose
+                            .toPose2d();
+                }
+        
+            }
+            catch(Exception e){
+                list[i] = null;
+            }
         }
+        return list;
 
     }
 
